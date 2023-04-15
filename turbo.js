@@ -1,4 +1,4 @@
-let tarefas = [];
+let tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 const listaTarefas = document.getElementById('tarefas');
 function Adicionar() {
     const tarefa = document.querySelector("#text").value;
@@ -7,6 +7,7 @@ function Adicionar() {
         concluida: false
     });
     atualizarTarefa();
+    localStorage.setItem('tarefas', JSON.stringify(tarefas));
 }
 
 function atualizarTarefa() {
@@ -20,6 +21,7 @@ function atualizarTarefa() {
         checkbox.addEventListener('click', () => {
             tarefa.concluida = !tarefa.concluida;
             li.classList.toggle('concluida');
+            localStorage.setItem('tarefas', JSON.stringify(tarefas));
         }); 
      
         const descricao = document.createElement('span');
@@ -32,7 +34,14 @@ function atualizarTarefa() {
         }
     });
 }
+
 function Limpar() {
     listaTarefas.innerHTML = '';
     tarefas = []
+    localStorage.setItem('tarefas', JSON.stringify(tarefas));
 }
+
+if (localStorage.getItem('tarefas')) {
+  tarefas = JSON.parse(localStorage.getItem('tarefas'));
+}
+atualizarTarefa();
